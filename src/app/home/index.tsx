@@ -4,6 +4,7 @@ import { Button } from '@/components/Button'
 import { Input} from '@/components/Input'
 import { Filter } from '@/components/Filter'
 import { Item } from '@/components/Item'
+import { useState} from "react"
 
 
 import { styles } from './styles'
@@ -36,6 +37,11 @@ const FILTER_STATUS: FilterStatus[] = [
 
 
 export function Home(){
+
+const [filter, setFilter] = useState <FilterStatus> ( FilterStatus.DONE)
+
+const [description, setDescription] = useState ("")
+
   console.log("ITEMS",ITEMS)
    return ( 
         <View style={styles.container}>
@@ -46,7 +52,12 @@ export function Home(){
 
         <View style={styles.form}>
 
-      <Input placeholder=' O que você precisa comprar ?' />
+      <Input placeholder=' O que você quer comprar ?' 
+      onChangeText={setDescription}
+      
+      />
+
+      <Text> {description} </Text>
 
       <Button title="Entrar" />
 
@@ -57,7 +68,12 @@ export function Home(){
       <View style={styles.header}> 
 
       {FILTER_STATUS.map((status) => (
-        <Filter key={status} status={status} isActive={false}/>
+        <Filter key={status} 
+        status={status} 
+        isActive={status === filter}
+        onPress={() => setFilter(status)}
+
+        />
       ))}
 
       <TouchableOpacity style={styles.clearButton}>
